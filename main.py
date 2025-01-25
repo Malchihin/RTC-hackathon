@@ -1,18 +1,17 @@
-import cv2
+from picamera2 import Picamera2, Preview
+from time import sleep
+ 
+camera = Picamera2() 
+ 
+preview_config = camera.create_preview_configuration()
+camera.configure(preview_config)
+ 
+camera.start_preview(Preview.QTGL)
 
-cap = cv2.VideoCapture(0)
+camera.start()
 
-while True:
+sleep(10)
 
-    ret, frame = cap.read()
+camera.stop()
 
-    if not ret:
-        break
-
-    cv2.imshow('Webcam', frame)
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-cap.release()
-cv2.destroyAllWindows()
+camera.stop_preview()
