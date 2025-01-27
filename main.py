@@ -6,10 +6,7 @@ import cv2.aruco
 
 camera = Picamera2()
 
-preview_config = camera.create_preview_configuration()
-camera.configure(preview_config)
-
-camera.start_preview(Preview.DRM)
+camera.start_preview()
 
 camera.start()
 
