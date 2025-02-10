@@ -14,7 +14,7 @@ while True:
     image_path = neronka(img)
 
 
-    cv2.imshow("Image", img)
+    cv2.imshow("Image", image_path)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
     
