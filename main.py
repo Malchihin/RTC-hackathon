@@ -8,6 +8,8 @@ camera = Picamera2()
 
 camera.configure(camera.create_preview_configuration(main={"format": 'XRGB8888', "size": (640, 480)}))
 
+camera.start_preview()
+
 camera.start()
 
 arucoDict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_250)
