@@ -13,11 +13,10 @@ while True:
     img = camera.capture_array()
     image_path = neronka(img)
 
-
-    cv2.imshow("Image", image_path)
+    cv2.imshow("Image", image_path.squeeze().numpy())
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
-    
+
 camera.stop()
 camera.stop_preview()
 cv2.destroyAllWindows()

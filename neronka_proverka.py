@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import torch.nn as nn
 import torch.nn.functional as F
 
-def neronka():
+def neronka(img):
     class SimpleCNN(nn.Module):
         def __init__(self):
             super(SimpleCNN, self).__init__()
