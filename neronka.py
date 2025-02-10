@@ -35,7 +35,7 @@ class SimpleCNN(nn.Module):
         x = x.view(-1, 64 * 8 * 8)
         x = F.relu(self.fc1(x))
         x = self.fc2(x)
-        return x
+        return F.log_softmax(x)
 
 model = SimpleCNN()
 
@@ -43,7 +43,6 @@ def save(model, filepath):
    
     torch.save(model.state_dict(), filepath)
     print(filepath)
-save(model, 'model_weights.pth')
 
 # Определение функции потерь и оптимизатора
 criterion = nn.CrossEntropyLoss()
@@ -65,7 +64,6 @@ for epoch in range(num_epochs):
     print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {running_loss/len(train_loader):.4f}')
 
 save(model, 'model_weights.pth')
-
 
 # Оценка модели
 model.eval()
