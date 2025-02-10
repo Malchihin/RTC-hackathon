@@ -48,8 +48,6 @@ def neronka():
     # Предсказание
     with torch.no_grad():
         output = model(image)
-
-
         possibol, predicted = torch.max(output.data, 1)
         predicted_class = predicted.item()
 
