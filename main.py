@@ -6,8 +6,6 @@ import cv2.aruco
 
 camera = Picamera2()
 
-camera.configure(camera.create_preview_configuration(main={"format": 'XRGB8888', "size": (640, 480)}))
-
 camera.start_preview()
 
 camera.start()
