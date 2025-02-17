@@ -1,22 +1,23 @@
-from neronka_proverka import neronka
+from neronka import load_model, predict_digit
 from picamera2 import Picamera2, Preview
 from time import sleep
 import cv2
 
-camera = Picamera2()
+def neronka_number():
+    camera = Picamera2()
+    camera.start_preview()
+    camera.start()
 
-camera.start_preview()
+    model = load_model()
 
-camera.start()
+    while True:
+        img = camera.capture_array()
+        cv2.imshow("Image", img)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
 
-while True:
-    img = camera.capture_array()
-    image_path = neronka(img)
+    camera.stop()
+    camera.stop_preview()
+    cv2.destroyAllWindows()     
 
-    cv2.imshow("Image", image_path.unsqueeze().numpy())
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
-
-camera.stop()
-camera.stop_preview()
-cv2.destroyAllWindows()
+neronka_number()
