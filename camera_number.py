@@ -2,6 +2,7 @@ from neronka import load_model, predict_digit, image
 from picamera2 import Picamera2, Preview
 from time import sleep
 import cv2
+import
 
 def neronka_number():
     camera = Picamera2()
