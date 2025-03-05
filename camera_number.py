@@ -14,6 +14,7 @@ def neronka_number():
     while True:
         img = camera.capture_array()
         img = image
+        image
         cv2.imshow("Image", img)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
