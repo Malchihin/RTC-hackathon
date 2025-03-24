@@ -1,26 +1,24 @@
 import RPi.GPIO as GPIO
 import time
 
-# Настройки пинов
-IA = 17  # Пин для управления IA
-IB = 27  # Пин для управления IB
+motor_pin1 = 17  
+motor_pin2 = 27  
 
-# Настройка GPIO
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(IA, GPIO.OUT)
-GPIO.setup(IB, GPIO.OUT)
+GPIO.setup(motor_pin1, GPIO.OUT)
+GPIO.setup(motor_pin2, GPIO.OUT)
 
 def forward():
-    GPIO.output(IA, GPIO.HIGH)
-    GPIO.output(IB, GPIO.LOW)
+    GPIO.output(motor_pin1, GPIO.HIGH)
+    GPIO.output(motor_pin2, GPIO.LOW)
 
 def backward():
-    GPIO.output(IA, GPIO.LOW)
-    GPIO.output(IB, GPIO.HIGH)
+    GPIO.output(motor_pin1, GPIO.LOW)
+    GPIO.output(motor_pin2, GPIO.HIGH)
 
 def stop():
-    GPIO.output(IA, GPIO.LOW)
-    GPIO.output(IB, GPIO.LOW)
+    GPIO.output(motor_pin1, GPIO.LOW)
+    GPIO.output(motor_pin2, GPIO.LOW)
 
 try:
 
