@@ -10,7 +10,7 @@ camera.start_preview()
 
 camera.start()
 
-arucoDict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_250)
+arucoDict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_5X5_100)
 arucoParam = cv2.aruco.DetectorParameters()
 arucoDetect = cv2.aruco.ArucoDetector(arucoDict, arucoParam)
 
