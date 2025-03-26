@@ -25,15 +25,7 @@ def set_angle(angle):
 try:
     while True:
         # Установите угол 0 градусов
-        set_angle(0)
-        time.sleep(1)
-
-        # Установите угол 90 градусов
-        set_angle(90)
-        time.sleep(1)
-
-        # Установите угол 180 градусов
-        set_angle(180)
+        set_angle(25)
         time.sleep(1)
 
 except KeyboardInterrupt:
