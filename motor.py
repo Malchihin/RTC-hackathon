@@ -71,8 +71,8 @@ try:
                # break
         #except:points.clear()
 	
-	set_angle()
-	time.sleep()
+        set_angle()
+        time.sleep()
         
         forward()
         print(1)
@@ -81,7 +81,7 @@ try:
 
         backward()
         print(2)
-	time.sleep(0.5)
+        time.sleep(0.5)
 	    
 
         #if markerID is not None:
