@@ -28,8 +28,8 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(motor_pin1, GPIO.OUT)
 GPIO.setup(motor_pin2, GPIO.OUT)
 
+GPIO.setmode(GPIO.BCM)
 pwm = GPIO.PWM(servo_pi_niz, 50)
-
 pwm.start(0)
 
 def forward():
