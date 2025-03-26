@@ -70,17 +70,18 @@ try:
             #if cv2.waitKey(1) & 0xFF == ord('q'):
                # break
         #except:points.clear()
+	
+	set_angle()
+	time.sleep()
         
         forward()
         print(1)
-        time.sleep(1)
+        time.sleep(0.5)
 
-        set_angle(25)
-        time.sleep(1)
 
         backward()
         print(2)
-        time.sleep(1)
+	time.sleep(0.5)
 	    
 
         #if markerID is not None:
