@@ -22,9 +22,15 @@ points = [[0, 0]]
 motor_pin1 = 17
 motor_pin2 = 27
 
+SERVO_PIN = 18
+
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(motor_pin1, GPIO.OUT)
 GPIO.setup(motor_pin2, GPIO.OUT)
+
+pwm = GPIO.PWM(SERVO_PIN, 50)
+
+pwm.start(0)
 
 def forward():
     print(1)
@@ -40,6 +46,12 @@ def stop():
     print(2)
     GPIO.output(motor_pin1, GPIO.LOW)
     GPIO.output(motor_pin2, GPIO.LOW)
+
+def set_angle(angle):
+    """Установить угол поворота сервопривода."""
+    duty_cycle = 2 + (angle / 18)  # Преобразование угла в рабочий цикл
+    pwm.ChangeDutyCycle(duty_cycle)
+    time.sleep(1)
 
 try:
     while True:
@@ -62,6 +74,9 @@ try:
         print(1)
         time.sleep(2)
 
+        set_angle(25)
+        time.sleep(1)
+
         if markerID is not None:
             if markerID == robotID:
                 stop()
@@ -73,4 +88,5 @@ except KeyboardInterrupt:
     GPIO.cleanup()
 
 
+pwm.stop()
 GPIO.cleanup()
