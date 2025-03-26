@@ -78,9 +78,10 @@ try:
         set_angle(25)
         time.sleep(1)
 
-	backward()
-	print(2)
-	time.sleep(1)
+        backward()
+        print(2)
+        time.sleep(1)
+	    
 
         #if markerID is not None:
            # if markerID == robotID:
