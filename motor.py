@@ -22,13 +22,13 @@ points = [[0, 0]]
 motor_pin1 = 17
 motor_pin2 = 27
 
-SERVO_PIN = 18
+servo_pi_niz = 18
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(motor_pin1, GPIO.OUT)
 GPIO.setup(motor_pin2, GPIO.OUT)
 
-pwm = GPIO.PWM(SERVO_PIN, 50)
+pwm = GPIO.PWM(servo_pi_niz, 50)
 
 pwm.start(0)
 
