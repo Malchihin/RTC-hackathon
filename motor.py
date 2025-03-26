@@ -22,14 +22,15 @@ points = [[0, 0]]
 motor_pin1 = 17
 motor_pin2 = 27
 
-servo_pi_niz = 18
+servo_pi_motor = 18
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(motor_pin1, GPIO.OUT)
 GPIO.setup(motor_pin2, GPIO.OUT)
 
 GPIO.setmode(GPIO.BCM)
-pwm = GPIO.PWM(servo_pi_niz, 50)
+GPIO.setup(servo_pi_motor, GPIO.OUT)
+pwm = GPIO.PWM(servo_pi_motor, 50)
 pwm.start(0)
 
 def forward():
