@@ -72,7 +72,7 @@ try:
         #except:points.clear()
 	
         set_angle()
-        time.sleep()
+        time.sleep(0.5)
         
         forward()
         print(1)
