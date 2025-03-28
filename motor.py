@@ -72,7 +72,7 @@ try:
         #except:points.clear()
 	
         #set_angle(25)
-        time.sleep(0.5)
+        #time.sleep(0.5)
         
         forward()
         print(1)
@@ -81,9 +81,9 @@ try:
 
         backward()
         #print(2)
-       # time.sleep(0.5)
+        time.sleep(0.5)
 	 
-	set_angel(25)   
+        set_angle(25)   
 
         #if markerID is not None:
            # if markerID == robotID:
