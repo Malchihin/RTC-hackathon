@@ -22,11 +22,19 @@ import time
 motor_pin1 = 17
 motor_pin2 = 27
 
+motor2_pin1 = 23
+motor2_pin2 = 24
+
 servo_pi_motor = 18
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(motor_pin1, GPIO.OUT)
 GPIO.setup(motor_pin2, GPIO.OUT)
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(motor2_pin1, GPIO.OUT)
+GPIO.setmode(motor2_pin2, GPIO.OUT)
+
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(servo_pi_motor, GPIO.OUT)
@@ -38,15 +46,27 @@ def forward():
     GPIO.output(motor_pin1, GPIO.HIGH)
     GPIO.output(motor_pin2, GPIO.LOW)
 
+    GPIO.output(motor2_pin1, GPIO.HIGH)
+    GPIO.output(motor2_pin2, GPIO.LOW)
+    
+
 def backward():
     print(2)
     GPIO.output(motor_pin1, GPIO.LOW)
     GPIO.output(motor_pin2, GPIO.HIGH)
 
+    GPIO.output(motor2_pin1, GPIO.LOW)
+    GPIO.output(motor2_pin2, GPIO.HIGH)
+
+
+
 def stop():
     print(2)
     GPIO.output(motor_pin1, GPIO.LOW)
     GPIO.output(motor_pin2, GPIO.LOW)
+
+    GPIO.output(motor2_pin1, GPIO.LOW)
+    GPIO.output(motor2_pin2, GPIO.LOW)
 
 def set_angle(angle):
     """Установить угол поворота сервопривода."""
