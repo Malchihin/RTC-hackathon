@@ -83,8 +83,8 @@ try:
         right()
         time.sleep(5)
 
-	left()
-	time.sleep(5)
+        left()
+        time.sleep(5)
 
 except KeyboardInterrupt:
     pass
