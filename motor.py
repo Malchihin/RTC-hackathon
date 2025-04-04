@@ -23,19 +23,19 @@ pwm.start(0)
 
 def forward():
     print(1)
-    GPIO.output(motor_pin1, GPIO.HIGH)
+    GPIO.output(motor_pin1, 100)
     GPIO.output(motor_pin2, GPIO.LOW)
 
-    GPIO.output(motor2_pin1, GPIO.HIGH)
+    GPIO.output(motor2_pin1, 100)
     GPIO.output(motor2_pin2, GPIO.LOW)
 
 def backward():
     print(2)
     GPIO.output(motor_pin1, GPIO.LOW)
-    GPIO.output(motor_pin2, GPIO.HIGH)
+    GPIO.output(motor_pin2, 100)
 
     GPIO.output(motor2_pin1, GPIO.LOW)
-    GPIO.output(motor2_pin2, GPIO.HIGH)
+    GPIO.output(motor2_pin2, 100)
 
 def stop():
     print(2)
