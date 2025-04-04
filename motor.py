@@ -51,6 +51,13 @@ def stop():
     motor2_pwm1.ChangeDutyCycle(0)
     motor2_pwm2.ChangeDutyCycle(0)
 
+def right():
+    print("right")
+    motor1_pwm1.ChangeDutyCycle(15)
+    motor1_pwm2.ChangeDutyCycle(0)
+    motor2_pwm1.ChangeDutyCycle(0)
+    motor2_pwm2.ChangeDutyCycle(-15)
+
 def set_angle(angle):
     """Установить угол поворота сервопривода."""
     duty_cycle = 2 + (angle / 18)  # Преобразование угла в рабочий цикл
@@ -64,6 +71,9 @@ try:
         time.sleep(5)
 
         backward()
+        time.sleep(5)
+
+        right()
         time.sleep(5)
 
 except KeyboardInterrupt:
