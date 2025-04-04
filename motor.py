@@ -74,6 +74,8 @@ def set_angle(angle):
 try:
     while True:
 
+        set_angle(0)
+
         forward()
         time.sleep(5)
 
