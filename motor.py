@@ -16,10 +16,22 @@ GPIO.setup(motor_pin2, GPIO.OUT)
 GPIO.setup(motor2_pin1, GPIO.OUT)
 GPIO.setup(motor2_pin2, GPIO.OUT)
 
+motor1_pwm1 = GPIO.PWM(motor_pin1, 100)
+motor1_pwm2 = GPIO.PWM(motor_pin2, 100)
+
+motor2_pwm1 = GPIO.PWM(motor2_pin1, 100)
+motor2_pwm2 = GPIO.PWM(motor2_pin2, 100)
+
 GPIO.setup(servo_pi_motor, GPIO.OUT)
 
 pwm = GPIO.PWM(servo_pi_motor, 50)
 pwm.start(0)
+
+motor_pin1.start(0)
+motor1_pwm2.start(0)
+
+motor_pin1.start(0)
+motor1_pwm2.start(0)
 
 def forward():
     print(1)
@@ -68,4 +80,11 @@ except KeyboardInterrupt:
     GPIO.cleanup()
 
 pwm.stop()
+
+motor_pin1.stop()
+motor_pin2.stop()
+
+motor2_pin1.stop()
+motor2_pin2.stop()
+
 GPIO.cleanup()
