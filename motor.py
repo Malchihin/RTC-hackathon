@@ -56,7 +56,14 @@ def right():
     motor1_pwm1.ChangeDutyCycle(15)
     motor1_pwm2.ChangeDutyCycle(0)
     motor2_pwm1.ChangeDutyCycle(0)
-    motor2_pwm2.ChangeDutyCycle(-15)
+    motor2_pwm2.ChangeDutyCycle(15)
+
+def left():
+    print("left")
+    motor1_pwm1.ChangeDutyCycle(0)
+    motor1_pwm2.ChangeDutyCycle(15)
+    motor2_pwm1.ChangeDutyCycle(15)
+    motor2_pwm2.ChangeDutyCycle(0)
 
 def set_angle(angle):
     """Установить угол поворота сервопривода."""
