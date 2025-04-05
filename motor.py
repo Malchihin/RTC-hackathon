@@ -201,26 +201,26 @@ def main():
         robot = RobotController()
         
         # Демонстрационный режим
-        print("Демонстрация работы робота")
-        robot.set_servo_angle(0)
-        
-        print("Движение вперед")
-        robot.move_forward()
-        time.sleep(2)
-        
-        print("Движение назад")
-        robot.move_backward()
-        time.sleep(2)
-        
-        print("Поворот направо")
-        robot.turn_right()
-        time.sleep(2)
-        
-        print("Поворот налево")
-        robot.turn_left()
-        time.sleep(2)
-        
-        robot.stop()
+        #print("Демонстрация работы робота")
+        #robot.set_servo_angle(0)
+        #
+        #print("Движение вперед")
+        #robot.move_forward()
+        #time.sleep(2)
+        #
+        #print("Движение назад")
+        #robot.move_backward()
+        #time.sleep(2)
+        #
+        #print("Поворот направо")
+        #robot.turn_right()
+        #time.sleep(2)
+        #
+        #print("Поворот налево")
+        #robot.turn_left()
+        #time.sleep(2)
+        #
+        #robot.stop()
         
         # Режим автоматического избегания препятствий
         print("Запуск режима избегания препятствий")
