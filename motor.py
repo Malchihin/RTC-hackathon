@@ -21,6 +21,8 @@ class RobotController:
     def __init__(self):
         # Инициализация GPIO
         GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)  # Отключаем предупреждения о повторном использовании пинов
+        self.sensors = []  # Инициализируем список датчиков
         self.setup_motors()
         self.setup_servo()
         self.setup_sensors()
@@ -52,50 +54,58 @@ class RobotController:
     
     def setup_sensors(self):
         """Инициализация трех датчиков VL53L0X"""
-        GPIO.setup(SENSOR1_XSHUT, GPIO.OUT)
-        GPIO.setup(SENSOR2_XSHUT, GPIO.OUT)
-        GPIO.setup(SENSOR3_XSHUT, GPIO.OUT)
-        
-        # Выключаем все датчики
-        GPIO.output(SENSOR1_XSHUT, GPIO.LOW)
-        GPIO.output(SENSOR2_XSHUT, GPIO.LOW)
-        GPIO.output(SENSOR3_XSHUT, GPIO.LOW)
-        time.sleep(0.5)
-        
-        # Инициализируем датчики с разными адресами
-        self.sensors = []
-        self.init_sensor(SENSOR1_XSHUT, 0x29)
-        self.init_sensor(SENSOR2_XSHUT, 0x30)
-        self.init_sensor(SENSOR3_XSHUT, 0x31)
+        try:
+            GPIO.setup(SENSOR1_XSHUT, GPIO.OUT)
+            GPIO.setup(SENSOR2_XSHUT, GPIO.OUT)
+            GPIO.setup(SENSOR3_XSHUT, GPIO.OUT)
+            
+            # Выключаем все датчики
+            GPIO.output(SENSOR1_XSHUT, GPIO.LOW)
+            GPIO.output(SENSOR2_XSHUT, GPIO.LOW)
+            GPIO.output(SENSOR3_XSHUT, GPIO.LOW)
+            time.sleep(0.5)
+            
+            # Инициализируем датчики с разными адресами
+            self.init_sensor(SENSOR1_XSHUT, 0x29)
+            self.init_sensor(SENSOR2_XSHUT, 0x30)
+            self.init_sensor(SENSOR3_XSHUT, 0x31)
+        except Exception as e:
+            print(f"Ошибка при инициализации датчиков: {e}")
     
     def init_sensor(self, xshut_pin, new_address):
         """Инициализация одного датчика"""
-        GPIO.output(xshut_pin, GPIO.HIGH)
-        time.sleep(0.1)
-        
-        bus = smbus2.SMBus(1)
-        sensor = VL53L0X.VL53L0X(i2c_bus=bus)
-        sensor.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
-        
-        # Меняем адрес датчика
-        sensor.change_address(new_address)
-        sensor.stop_ranging()
-        bus.close()
-        
-        # Перезапускаем с новым адресом
-        bus = smbus2.SMBus(1)
-        sensor = VL53L0X.VL53L0X(address=new_address, i2c_bus=bus)
-        sensor.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
-        self.sensors.append(sensor)
-        
-        print(f"Датчик на пине {xshut_pin} инициализирован с адресом 0x{new_address:02X}")
+        try:
+            GPIO.output(xshut_pin, GPIO.HIGH)
+            time.sleep(0.1)
+            
+            bus = smbus2.SMBus(1)
+            sensor = VL53L0X.VL53L0X(i2c_bus=bus)
+            sensor.start_ranging(VL53L0X.VL53L0X_GOOD_ACCURACY_MODE)
+            
+            # Меняем адрес датчика
+            sensor.change_address(new_address)
+            sensor.stop_ranging()
+            bus.close()
+            
+            # Перезапускаем с новым адресом
+            bus = smbus2.SMBus(1)
+            sensor = VL53L0X.VL53L0X(address=new_address, i2c_bus=bus)
+            sensor.start_ranging(VL53L0X.VL53L0X_GOOD_ACCURACY_MODE)
+            self.sensors.append(sensor)
+            
+            print(f"Датчик на пине {xshut_pin} инициализирован с адресом 0x{new_address:02X}")
+        except Exception as e:
+            print(f"Ошибка при инициализации датчика на пине {xshut_pin}: {e}")
     
     def get_distances(self):
         """Получение расстояний от всех датчиков"""
         distances = []
         for sensor in self.sensors:
-            distance = sensor.get_distance()
-            distances.append(distance if distance > 0 else None)
+            try:
+                distance = sensor.get_distance()
+                distances.append(distance if distance > 0 else None)
+            except:
+                distances.append(None)
         return distances
     
     def set_servo_angle(self, angle):
@@ -142,35 +152,41 @@ class RobotController:
     
     def avoid_obstacles(self):
         """Автоматическое избегание препятствий"""
-        while True:
-            distances = self.get_distances()
-            print(f"Расстояния: {distances} мм")
-            
-            if all(d is None or d > 300 for d in distances):
-                self.move_forward()
-            elif distances[0] is not None and distances[0] < 300:
-                self.stop()
-                time.sleep(0.5)
-                self.set_servo_angle(90)
-                time.sleep(0.5)
-                right_dist = self.get_distances()[1]
-                left_dist = self.get_distances()[2]
+        try:
+            while True:
+                distances = self.get_distances()
+                print(f"Расстояния: {distances} мм")
                 
-                if right_dist is not None and left_dist is not None:
-                    if right_dist > left_dist:
-                        self.turn_right()
-                        time.sleep(1)
-                    else:
-                        self.turn_left()
-                        time.sleep(1)
-                self.set_servo_angle(0)
-            time.sleep(0.1)
+                if all(d is None or d > 300 for d in distances):
+                    self.move_forward()
+                elif distances[0] is not None and distances[0] < 300:
+                    self.stop()
+                    time.sleep(0.5)
+                    self.set_servo_angle(90)
+                    time.sleep(0.5)
+                    right_dist = self.get_distances()[1] if len(self.get_distances()) > 1 else None
+                    left_dist = self.get_distances()[2] if len(self.get_distances()) > 2 else None
+                    
+                    if right_dist is not None and left_dist is not None:
+                        if right_dist > left_dist:
+                            self.turn_right()
+                            time.sleep(1)
+                        else:
+                            self.turn_left()
+                            time.sleep(1)
+                    self.set_servo_angle(0)
+                time.sleep(0.1)
+        except KeyboardInterrupt:
+            print("\nРежим избегания препятствий остановлен")
     
     def cleanup(self):
         """Очистка ресурсов"""
         self.stop()
         for sensor in self.sensors:
-            sensor.stop_ranging()
+            try:
+                sensor.stop_ranging()
+            except:
+                pass
         self.servo_pwm.stop()
         self.motor1_pwm1.stop()
         self.motor1_pwm2.stop()
@@ -180,30 +196,31 @@ class RobotController:
         print("Ресурсы освобождены")
 
 def main():
+    robot = None
     try:
         robot = RobotController()
         
-        ## Демонстрационный режим
-        #print("Демонстрация работы робота")
-        #robot.set_servo_angle(0)
-        #
-        #print("Движение вперед")
-        #robot.move_forward()
-        #time.sleep(2)
-        #
-        #print("Движение назад")
-        #robot.move_backward()
-        #time.sleep(2)
-        #
-        #print("Поворот направо")
-        #robot.turn_right()
-        #time.sleep(2)
-        #
-        #print("Поворот налево")
-        #robot.turn_left()
-        #time.sleep(2)
-        #
-        #robot.stop()
+        # Демонстрационный режим
+        print("Демонстрация работы робота")
+        robot.set_servo_angle(0)
+        
+        print("Движение вперед")
+        robot.move_forward()
+        time.sleep(2)
+        
+        print("Движение назад")
+        robot.move_backward()
+        time.sleep(2)
+        
+        print("Поворот направо")
+        robot.turn_right()
+        time.sleep(2)
+        
+        print("Поворот налево")
+        robot.turn_left()
+        time.sleep(2)
+        
+        robot.stop()
         
         # Режим автоматического избегания препятствий
         print("Запуск режима избегания препятствий")
@@ -211,8 +228,11 @@ def main():
         
     except KeyboardInterrupt:
         print("\nПрограмма остановлена пользователем")
+    except Exception as e:
+        print(f"\nПроизошла ошибка: {e}")
     finally:
-        robot.cleanup()
+        if robot is not None:
+            robot.cleanup()
 
 if __name__ == "__main__":
     main()
