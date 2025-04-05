@@ -2,7 +2,7 @@
 
 import RPi.GPIO as GPIO
 import time
-import vl53l0x
+import VL53L0X
 import smbus2
 
 # Настройка пинов для двигателей и сервопривода
