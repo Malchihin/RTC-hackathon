@@ -74,8 +74,8 @@ class RobotController:
         time.sleep(0.1)
         
         bus = smbus2.SMBus(1)
-        sensor = vl53l0x.VL53L0X(i2c_bus=bus)
-        sensor.start_ranging(vl53l0x.VL53L0X_BETTER_ACCURACY_MODE)
+        sensor = VL53L0X.VL53L0X(i2c_bus=bus)
+        sensor.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
         
         # Меняем адрес датчика
         sensor.change_address(new_address)
@@ -84,8 +84,8 @@ class RobotController:
         
         # Перезапускаем с новым адресом
         bus = smbus2.SMBus(1)
-        sensor = vl53l0x.VL53L0X(address=new_address, i2c_bus=bus)
-        sensor.start_ranging(vl53l0x.VL53L0X_BETTER_ACCURACY_MODE)
+        sensor = VL53L0X.VL53L0X(address=new_address, i2c_bus=bus)
+        sensor.start_ranging(VL53L0X.VL53L0X_BETTER_ACCURACY_MODE)
         self.sensors.append(sensor)
         
         print(f"Датчик на пине {xshut_pin} инициализирован с адресом 0x{new_address:02X}")
