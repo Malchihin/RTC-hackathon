@@ -146,12 +146,19 @@ class RobotController:
                 distances = self.get_distances()
                 print(f"Расстояния: {distances} мм")
 
+                # Проверка, видят ли все датчики стену
+                if all(d is not None and d < 300 for d in distances):
+                    self.stop()
+                    time.sleep(0.5)
+                    self.turn_right(speed=20)
+                    time.sleep(1.5)  
+                    self.stop()
+                    continue
+
                 if all(d is None or d > 300 for d in distances):
                     self.move_forward()
                 elif distances[0] is not None and distances[0] < 300:
                     self.stop()
-                    time.sleep(0.5)
-                    self.set_servo_angle(90)
                     time.sleep(0.5)
                     right_dist = self.get_distances()[1] if len(self.get_distances()) > 1 else None
                     left_dist = self.get_distances()[2] if len(self.get_distances()) > 2 else None
@@ -191,7 +198,7 @@ def main():
 
         # Режим автоматического избегания препятствий
         print("Запуск режима избегания препятствий")
-        robot.set_servo_angle(0)	
+        robot.set_servo_angle(0)
         robot.avoid_obstacles()
 
     except KeyboardInterrupt:
