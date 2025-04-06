@@ -148,9 +148,9 @@ class RobotController:
                 distances = self.get_distances()
                 print(f"Расстояния: {distances} мм")
 
-                if all(d is None or d > 300 for d in distances):
+                if all(d is None or d > 150 for d in distances):
                     self.move_forward()
-                elif distances[0] is not None and distances[0] < 300:
+                elif distances[0] is not None and distances[0] < 150:
                     self.stop()
                     time.sleep(0.5)
                     self.set_servo_angle(90)
