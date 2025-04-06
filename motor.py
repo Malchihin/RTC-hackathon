@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import RPi.GPIO as GPIO
 import time
 import board
@@ -14,7 +12,7 @@ MOTOR2_PIN2 = 24
 SERVO_PIN = 18
 
 # Пины для управления датчиками VL53L0X
-SENSOR1_XSHUT = 4
+SENSOR1_XSHUT = 26
 SENSOR2_XSHUT = 5
 SENSOR3_XSHUT = 6
 
@@ -67,7 +65,7 @@ class RobotController:
             time.sleep(0.5)
 
             # Инициализируем датчики с разными адресами
-            self.init_sensor(SENSOR1_XSHUT, 0x29)
+            self.init_sensor(SENSOR1_XSHUT, 0x32)
             self.init_sensor(SENSOR2_XSHUT, 0x30)
             self.init_sensor(SENSOR3_XSHUT, 0x31)
         except Exception as e:
@@ -106,28 +104,28 @@ class RobotController:
         time.sleep(0.3)
         self.servo_pwm.ChangeDutyCycle(0)  # Останавливаем PWM для сервопривода
 
-    def move_forward(self, speed=15):
+    def move_forward(self, speed=20):
         """Движение вперед"""
         self.motor1_pwm1.ChangeDutyCycle(speed)
         self.motor1_pwm2.ChangeDutyCycle(0)
         self.motor2_pwm1.ChangeDutyCycle(speed)
         self.motor2_pwm2.ChangeDutyCycle(0)
 
-    def move_backward(self, speed=15):
+    def move_backward(self, speed=20):
         """Движение назад"""
         self.motor1_pwm1.ChangeDutyCycle(0)
         self.motor1_pwm2.ChangeDutyCycle(speed)
         self.motor2_pwm1.ChangeDutyCycle(0)
         self.motor2_pwm2.ChangeDutyCycle(speed)
 
-    def turn_right(self, speed=15):
+    def turn_right(self, speed=20):
         """Поворот направо"""
         self.motor1_pwm1.ChangeDutyCycle(speed)
         self.motor1_pwm2.ChangeDutyCycle(0)
         self.motor2_pwm1.ChangeDutyCycle(0)
         self.motor2_pwm2.ChangeDutyCycle(speed)
 
-    def turn_left(self, speed=15):
+    def turn_left(self, speed=20):
         """Поворот налево"""
         self.motor1_pwm1.ChangeDutyCycle(0)
         self.motor1_pwm2.ChangeDutyCycle(speed)
@@ -148,9 +146,9 @@ class RobotController:
                 distances = self.get_distances()
                 print(f"Расстояния: {distances} мм")
 
-                if all(d is None or d > 150 for d in distances):
+                if all(d is None or d > 300 for d in distances):
                     self.move_forward()
-                elif distances[0] is not None and distances[0] < 150:
+                elif distances[0] is not None and distances[0] < 300:
                     self.stop()
                     time.sleep(0.5)
                     self.set_servo_angle(90)
@@ -193,6 +191,7 @@ def main():
 
         # Режим автоматического избегания препятствий
         print("Запуск режима избегания препятствий")
+	robot.set_servo_angle(0)	
         robot.avoid_obstacles()
 
     except KeyboardInterrupt:
