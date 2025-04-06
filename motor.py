@@ -139,34 +139,27 @@ class RobotController:
         self.motor2_pwm1.ChangeDutyCycle(0)
         self.motor2_pwm2.ChangeDutyCycle(0)
 
-    def avoid_obstacles(self):
-        """Автоматическое избегание препятствий"""
+    def align_in_maze(self):
+        """Выравнивание робота в лабиринте"""
         try:
             while True:
                 distances = self.get_distances()
                 print(f"Расстояния: {distances} мм")
-
-                if all(d is None or d > 300 for d in distances):
+                if distances[1] is not None and distances[2] is not None:
+                    if distances[1] < distances[2]:
+                        self.turn_right()
+                        time.sleep(0.1)
+                    elif distances[1] > distances[2]:
+                        self.turn_left()
+                        time.sleep(0.1)
+                    else:
+                        self.move_forward()
+                else:
                     self.move_forward()
-                elif distances[0] is not None and distances[0] < 300:
-                    self.stop()
-                    time.sleep(0.5)
-                    self.set_servo_angle(90)
-                    time.sleep(0.5)
-                    right_dist = self.get_distances()[1] if len(self.get_distances()) > 1 else None
-                    left_dist = self.get_distances()[2] if len(self.get_distances()) > 2 else None
 
-                    if right_dist is not None and left_dist is not None:
-                        if right_dist > left_dist:
-                            self.turn_right()
-                            time.sleep(1)
-                        else:
-                            self.turn_left()
-                            time.sleep(1)
-                    self.set_servo_angle(0)
                 time.sleep(0.1)
         except KeyboardInterrupt:
-            print("\nРежим избегания препятствий остановлен")
+            print("\nРежим выравнивания остановлен")
 
     def cleanup(self):
         """Очистка ресурсов"""
@@ -189,10 +182,10 @@ def main():
     try:
         robot = RobotController()
 
-        # Режим автоматического избегания препятствий
-        print("Запуск режима избегания препятствий")
-        robot.set_servo_angle(0)	
-        robot.avoid_obstacles()
+        # Режим выравнивания в лабиринте
+        print("Запуск режима выравнивания в лабиринте")
+        robot.set_servo_angle(0)
+        robot.align_in_maze()
 
     except KeyboardInterrupt:
         print("\nПрограмма остановлена пользователем")
