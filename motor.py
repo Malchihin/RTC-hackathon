@@ -147,7 +147,7 @@ class RobotController:
                 print(f"Расстояния: {distances} мм")
 
                 # Проверка, видят ли все датчики стену
-                if all(d is not None and d < 300 for d in distances):
+                if all(d is not None and d < 450 for d in distances):
                     self.stop()
                     time.sleep(0.5)
                     self.turn_right(speed=20)
@@ -155,9 +155,9 @@ class RobotController:
                     self.stop()
                     continue
 
-                if all(d is None or d > 300 for d in distances):
+                if all(d is None or d > 450 for d in distances):
                     self.move_forward()
-                elif distances[0] is not None and distances[0] < 300:
+                elif distances[0] is not None and distances[0] < 450:
                     self.stop()
                     time.sleep(0.5)
                     right_dist = self.get_distances()[1] if len(self.get_distances()) > 1 else None

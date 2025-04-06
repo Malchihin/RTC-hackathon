@@ -1,4 +1,4 @@
-#!/home/raspberrypi/RTC-hackathon/myenv/bin/python
+#!/home/daa/RTC-hackathon/myenv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
