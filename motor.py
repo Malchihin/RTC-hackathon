@@ -191,7 +191,7 @@ def main():
 
         # Режим автоматического избегания препятствий
         print("Запуск режима избегания препятствий")
-	robot.set_servo_angle(0)	
+        robot.set_servo_angle(0)	
         robot.avoid_obstacles()
 
     except KeyboardInterrupt:
